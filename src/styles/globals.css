@@ -300,3 +300,33 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- contrast and forced colours ---------- */
+
+/*
+ * When the platform forces a palette (Windows High Contrast and similar), the
+ * generated posters lose their tints and the custom pointer stops being legible,
+ * so structure has to come from borders and the native cursor is restored.
+ */
+@media (forced-colors: active) {
+  body[data-cursor="custom"] {
+    cursor: auto;
+  }
+
+  .poster-frame {
+    border: 1px solid CanvasText;
+  }
+}
+
+/*
+ * For visitors who explicitly ask for more contrast, lift the muted steps rather
+ * than abandoning the palette: the dim/faint text and hairlines gain weight
+ * while the accent and background stay recognisably the same design.
+ */
+@media (prefers-contrast: more) {
+  :root {
+    --color-dim: #d4d4d4;
+    --color-faint: #cfcfcf;
+    --color-line: #6f6f6f;
+  }
+}

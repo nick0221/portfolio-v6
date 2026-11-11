@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import { MaskReveal } from "@/components/animations/MaskReveal";
 import { ProjectVisual } from "@/components/ui/ProjectVisual";
+import { prefetchProjectPage } from "@/lib/prefetchProjectPage";
 import type { Project } from "@/types";
 
 /**
@@ -25,6 +26,8 @@ export function ProjectItem({ project }: { project: Project }) {
       <Link
         to={`/work/${project.slug}`}
         aria-label={`${project.name} — ${project.category}. Open project.`}
+        onPointerEnter={prefetchProjectPage}
+        onFocus={prefetchProjectPage}
         className="block focus-visible:outline-offset-8"
       >
         <MaskReveal className="poster-frame relative w-full overflow-hidden bg-surface">

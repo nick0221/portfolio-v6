@@ -22,9 +22,12 @@ export function CustomCursor() {
   const finePointer = useMediaQuery("(pointer: fine)");
   const largeViewport = useMediaQuery("(min-width: 1024px)");
   const reducedMotion = useReducedMotion();
+  // A system-enforced palette can repaint the arrow into the artwork behind it,
+  // so the native pointer is the safer choice there.
+  const forcedColors = useMediaQuery("(forced-colors: active)");
   // Suppressing the native cursor is only safe while the replacement renders,
   // so the viewport breakpoint gates both together.
-  const enabled = finePointer && largeViewport && !reducedMotion;
+  const enabled = finePointer && largeViewport && !reducedMotion && !forcedColors;
 
   const [overInteractive, setOverInteractive] = useState(false);
   const [visible, setVisible] = useState(false);
