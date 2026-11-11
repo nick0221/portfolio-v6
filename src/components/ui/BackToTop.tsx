@@ -9,7 +9,6 @@ export function BackToTop() {
     <button
       type="button"
       onClick={() => scrollTo(0)}
-      data-cursor="Top"
       className="group inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-dim transition-colors duration-300 hover:text-accent"
     >
       <span className="grid h-9 w-9 place-items-center rounded-full border border-line transition-colors duration-300 group-hover:border-accent">

@@ -24,7 +24,6 @@ export function ProjectItem({ project }: { project: Project }) {
     <article className="work-cell group" style={style}>
       <Link
         to={`/work/${project.slug}`}
-        data-cursor="View"
         aria-label={`${project.name} — ${project.category}. Open project.`}
         className="block focus-visible:outline-offset-8"
       >

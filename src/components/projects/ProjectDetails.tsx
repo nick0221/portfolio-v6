@@ -159,7 +159,6 @@ export function ProjectDetails({ project }: { project: Project }) {
         >
           <Link
             to={`/work/${previousProject.slug}`}
-            data-cursor="Previous"
             className="group block"
           >
             <p className="label">Previous project</p>
@@ -179,7 +178,6 @@ export function ProjectDetails({ project }: { project: Project }) {
 
           <Link
             to={`/work/${nextProject.slug}`}
-            data-cursor="Next"
             className="group block md:text-right"
           >
             <p className="label">Next project</p>

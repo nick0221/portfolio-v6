@@ -92,9 +92,9 @@ Type: `display-xl` / `display-l` / `display-m` are fluid `clamp()` classes; `.la
 - `prefers-reduced-motion` disables parallax, clip reveals, page wipes, the preloader, the custom
   cursor and marquee movement; layout and navigation stay intact.
 - Custom cursor is pointer-fine only, only above `lg`, and deliberately minimal: a small pointer
-  arrow in ink that turns lime over interactive elements, with a compact mono label chip on
-  labelled targets (project posters, email, back-to-top). Native cursor is restored whenever the
-  replacement is not rendered.
+  arrow in ink that turns lime and lifts slightly over anything interactive. No text label — the
+  arrow's own state is the affordance. Native cursor is restored whenever the replacement is not
+  rendered.
 - Skip link, visible focus rings, semantic landmarks, `aria-current` on the active nav item.
 - Mobile menu: focus moves to the first item on open, Tab/Shift+Tab are trapped inside the
   overlay, Escape closes it, focus returns to the toggle and scroll lock is released.

@@ -80,7 +80,6 @@ export function ContactSection() {
           <div className="lg:col-span-6 lg:col-start-7">
             <a
               href={`mailto:${SITE.email}`}
-              data-cursor="Email"
               className="group flex flex-wrap items-baseline justify-between gap-4 border-t border-line py-6"
             >
               <span className="font-display text-[clamp(1.3rem,3vw,2.4rem)] tracking-[-0.03em] transition-colors duration-300 group-hover:text-accent">
@@ -97,7 +96,6 @@ export function ContactSection() {
                       href={social.href}
                       target="_blank"
                       rel="noreferrer noopener"
-                      data-cursor="Open"
                       className="group flex flex-wrap items-baseline justify-between gap-4 py-5"
                     >
                       <span className="font-display text-[clamp(1.2rem,2.4vw,1.8rem)] tracking-[-0.02em] transition-colors duration-300 group-hover:text-accent">
