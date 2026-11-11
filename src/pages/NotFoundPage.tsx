@@ -7,6 +7,9 @@ export function NotFoundPage() {
     title: "Page not found | NickDevs",
     description: "This page does not exist. Return to the NickDevs portfolio home.",
     path: "/404",
+    // The SPA cannot answer with a 404 status, so the route opts out of the
+    // index instead of competing with real pages as a soft 404.
+    robots: "noindex, follow",
   });
 
   return (

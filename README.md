@@ -120,6 +120,8 @@ file names.
   arrow's own state is the affordance. Native cursor is restored whenever the replacement is not
   rendered.
 - Skip link, visible focus rings, semantic landmarks, `aria-current` on the active nav item.
+- Client-side navigation announces its destination through a polite live region, and the soft-404
+  route is `noindex` so it cannot be indexed as a real page.
 - Mobile menu: focus moves to the first item on open, Tab/Shift+Tab are trapped inside the
   overlay, Escape closes it, focus returns to the toggle and scroll lock is released.
 - Generated project visuals are decorative (`aria-hidden`); the same information is available as

@@ -8,6 +8,8 @@ interface SEOOptions {
   type?: "website" | "article";
   /** Structured data for this route. Removed when a route does not provide it. */
   jsonLd?: Record<string, unknown>;
+  /** Indexing policy for this route. Self-canonicalising pages stay indexable. */
+  robots?: string;
 }
 
 function upsertMeta(attribute: "name" | "property", key: string, content: string) {
@@ -49,7 +51,14 @@ function upsertStructuredData(json: string | null) {
 }
 
 /** Per-route document metadata without pulling in a helmet dependency. */
-export function useSEO({ title, description, path = "/", type = "website", jsonLd }: SEOOptions) {
+export function useSEO({
+  title,
+  description,
+  path = "/",
+  type = "website",
+  robots = "index, follow",
+  jsonLd,
+}: SEOOptions) {
   // Serialise so an inline object literal does not re-run this effect every render.
   const structuredData = jsonLd ? JSON.stringify(jsonLd) : null;
 
@@ -65,6 +74,7 @@ export function useSEO({ title, description, path = "/", type = "website", jsonL
     upsertMeta("name", "twitter:title", title);
     upsertMeta("name", "twitter:description", description);
     upsertCanonical(canonical);
+    upsertMeta("name", "robots", robots);
     upsertStructuredData(structuredData);
-  }, [title, description, path, type, structuredData]);
+  }, [title, description, path, type, robots, structuredData]);
 }
