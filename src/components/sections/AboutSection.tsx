@@ -42,10 +42,12 @@ export function AboutSection() {
   return (
     <section
       id="about"
+      aria-labelledby="about-heading"
       className="relative scroll-mt-20 border-t border-line bg-surface/30 py-20 md:py-28 lg:py-36"
     >
       <div className="shell">
         <SectionHeading
+          id="about-heading"
           index="03"
           label="About — Background"
           title={"BUILDING SYSTEMS\nTHAT GET USED"}

@@ -14,6 +14,7 @@ Built as a single-page scrolling experience with dedicated project routes.
 | Routing | React Router 7 |
 | Smooth scroll | Lenis 1.3 (autoRaf, native on touch) |
 | Icons | Lucide React |
+| Tests | Vitest (dev-only — guards the content layer) |
 | Fonts | Space Grotesk + Inter, self-hosted variable woff2 (`src/assets/fonts`) |
 
 HeroUI was intentionally **not** installed: every surface here is bespoke, and its component
@@ -26,6 +27,7 @@ without changing this architecture.
 ```bash
 npm install
 npm run dev        # http://127.0.0.1:5173
+npm test           # vitest run — catalogue and helper guards
 npm run typecheck  # tsc --noEmit
 npm run build      # typecheck + production build
 npm run preview    # serve the production build
@@ -72,6 +74,14 @@ The palette's `#666666` step measures only 3.47:1 on the background, so it is re
 
 Type: `display-xl` / `display-l` / `display-m` are fluid `clamp()` classes; `.label` is the
 11px tracking-wide mono metadata style; `.mono-meta` is tabular technical text.
+
+## Tests
+
+The catalogue is the part of this project most likely to be edited by hand, so `npm test` guards the
+invariants the interface depends on rather than fixed copy: unique id/slug pairs, sequential
+numbering, the fields every section renders, valid hex tints, posters that stay inside the 12-column
+grid, https-only links, next/previous wrap-around, and a sitemap entry for every project under the
+canonical origin. Helper behaviour (`withAlpha`) is covered too.
 
 ## Fonts
 

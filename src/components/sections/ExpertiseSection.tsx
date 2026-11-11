@@ -26,10 +26,12 @@ export function ExpertiseSection() {
   return (
     <section
       id="expertise"
+      aria-labelledby="expertise-heading"
       className="relative scroll-mt-20 border-t border-line py-20 md:py-28 lg:py-36"
     >
       <div className="shell">
         <SectionHeading
+          id="expertise-heading"
           index="04"
           label="Expertise — Stack"
           title={"TOOLS OF\nTHE TRADE"}

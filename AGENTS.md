@@ -19,11 +19,12 @@ the source of truth for this project.
 ## Checks before committing
 
 ```bash
+npm test            # vitest run — content-layer guards
 npm run typecheck   # tsc --noEmit
 npm run build       # typecheck + production build
 ```
 
-Both must pass. Report checks that could not be run instead of claiming they passed, and never
+All three must pass. Report checks that could not be run instead of claiming they passed, and never
 weaken an assertion or a type to make a check go green.
 
 ## Project facts
@@ -40,3 +41,5 @@ weaken an assertion or a type to make a check go green.
 - Project previews are generated interface studies (`ProjectVisual.tsx`), captioned as studies,
   never presented as screenshots.
 - The site is a client-side SPA; hosts must rewrite unknown paths to `index.html` for `/work/:slug`.
+- `src/data/projects.test.ts` guards catalogue invariants (unique slugs, grid placement, tints,
+  sitemap coverage). Update it when the data model changes rather than deleting checks.

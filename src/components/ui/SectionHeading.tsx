@@ -2,6 +2,8 @@ import { SplitText } from "@/components/animations/SplitText";
 import { Reveal } from "@/components/animations/Reveal";
 
 interface SectionHeadingProps {
+  /** Applied to the heading so the section can be labelled by it. */
+  id?: string;
   index: string;
   label: string;
   title: string;
@@ -12,6 +14,7 @@ interface SectionHeadingProps {
 
 /** Shared editorial section header: index rule, oversized title, side note. */
 export function SectionHeading({
+  id,
   index,
   label,
   title,
@@ -28,7 +31,7 @@ export function SectionHeading({
       </div>
 
       <div className="mt-8 grid gap-6 lg:mt-10 lg:grid-cols-12 lg:items-end lg:gap-8">
-        <h2 className={`${titleClassName} lg:col-span-8`}>
+        <h2 id={id} className={`${titleClassName} lg:col-span-8`}>
           <SplitText text={title} />
         </h2>
         {description ? (

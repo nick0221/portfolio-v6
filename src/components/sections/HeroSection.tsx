@@ -30,6 +30,7 @@ export function HeroSection() {
     <section
       id="home"
       ref={sectionRef}
+      aria-labelledby="hero-heading"
       className="relative isolate flex min-h-[100svh] flex-col overflow-hidden pb-8 pt-[104px] md:pt-[120px]"
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
@@ -65,7 +66,9 @@ export function HeroSection() {
         </div>
 
         <div>
-          <h1 className="sr-only">NickDevs — Full Stack Web Developer</h1>
+          <h1 id="hero-heading" className="sr-only">
+            NickDevs — Full Stack Web Developer
+          </h1>
           <motion.div
             aria-hidden="true"
             style={canParallax ? { y: wordmarkY, opacity: fade } : undefined}

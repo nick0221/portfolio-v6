@@ -21,6 +21,7 @@ export function ContactSection() {
   return (
     <section
       id="contact"
+      aria-labelledby="contact-heading"
       className="relative scroll-mt-20 overflow-hidden border-t border-line py-20 md:py-28 lg:py-36"
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
@@ -34,7 +35,10 @@ export function ContactSection() {
           <span className="label shrink-0">Contact</span>
         </div>
 
-        <h2 className="mt-8 text-[clamp(2.3rem,8.2vw,7.4rem)] uppercase leading-[0.9] tracking-[-0.05em]">
+        <h2
+          id="contact-heading"
+          className="mt-8 text-[clamp(2.3rem,8.2vw,7.4rem)] uppercase leading-[0.9] tracking-[-0.05em]"
+        >
           <SplitText
             text={"Have an idea?\nLet's build\nsomething meaningful."}
             stagger={0.035}

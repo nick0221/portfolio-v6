@@ -6,10 +6,12 @@ export function WorksSection() {
   return (
     <section
       id="works"
+      aria-labelledby="works-heading"
       className="relative scroll-mt-20 border-t border-line py-20 md:py-28 lg:py-36"
     >
       <div className="shell">
         <SectionHeading
+          id="works-heading"
           index="02"
           label={`Selected works — ${PROJECT_COUNT}`}
           title={"SELECTED\nWORKS"}
