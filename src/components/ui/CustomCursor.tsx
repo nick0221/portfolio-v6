@@ -1,17 +1,37 @@
-import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "framer-motion";
+import { MousePointer2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { EASE_EXPO } from "@/components/animations/Reveal";
 
 /**
- * Desktop-only custom cursor. Expands into a lime label when hovering an
- * element marked with `data-cursor="..."`. Never rendered on touch or for
+ * Palette values mirrored from the design tokens in `globals.css`. Framer
+ * animates concrete colour values (CSS custom properties do not interpolate),
+ * so the accent and ink are repeated here — keep in sync.
+ */
+const ACCENT = "#C8FF00";
+const INK = "#F5F5F5";
+
+/**
+ * Desktop-only custom pointer, kept deliberately small rather than being a
+ * large shape: a pointer arrow in ink that turns lime over interactive
+ * elements, with a compact mono label chip only on labelled targets (project
+ * posters, email, back-to-top). Never rendered on touch, below `lg`, or for
  * reduced-motion visitors, and it never traps the native pointer.
  */
 export function CustomCursor() {
   const finePointer = useMediaQuery("(pointer: fine)");
+  const largeViewport = useMediaQuery("(min-width: 1024px)");
   const reducedMotion = useReducedMotion();
-  const enabled = finePointer && !reducedMotion;
+  // Suppressing the native cursor is only safe while the replacement renders,
+  // so the viewport breakpoint gates both together.
+  const enabled = finePointer && largeViewport && !reducedMotion;
 
   const [label, setLabel] = useState<string | null>(null);
   const [overInteractive, setOverInteractive] = useState(false);
@@ -19,8 +39,9 @@ export function CustomCursor() {
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const ringX = useSpring(x, { stiffness: 340, damping: 30, mass: 0.5 });
-  const ringY = useSpring(y, { stiffness: 340, damping: 30, mass: 0.5 });
+  // Tight spring so the arrow tracks the pointer without feeling detached.
+  const arrowX = useSpring(x, { stiffness: 900, damping: 60, mass: 0.35 });
+  const arrowY = useSpring(y, { stiffness: 900, damping: 60, mass: 0.35 });
 
   useEffect(() => {
     if (!enabled) return;
@@ -54,42 +75,51 @@ export function CustomCursor() {
 
   if (!enabled) return null;
 
-  const expanded = Boolean(label);
+  const active = overInteractive || Boolean(label);
 
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[95] hidden lg:block">
-      <motion.div className="absolute left-0 top-0" style={{ x: ringX, y: ringY }}>
+    <div
+      data-cursor-root=""
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-[95]"
+    >
+      <motion.div className="absolute left-0 top-0" style={{ x: arrowX, y: arrowY }}>
         <motion.div
-          className="flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border"
-          animate={{
-            width: expanded ? 92 : overInteractive ? 42 : 26,
-            height: expanded ? 92 : overInteractive ? 42 : 26,
-            opacity: visible ? 1 : 0,
-            backgroundColor: expanded ? "rgba(200,255,0,1)" : "rgba(200,255,0,0)",
-            borderColor: expanded
-              ? "rgba(200,255,0,1)"
-              : overInteractive
-                ? "rgba(245,245,245,0.9)"
-                : "rgba(245,245,245,0.45)",
-          }}
-          transition={{ duration: 0.32, ease: EASE_EXPO }}
+          className="-translate-x-[4px] -translate-y-[4px]"
+          animate={{ opacity: visible ? 1 : 0, scale: active ? 1.15 : 1 }}
+          transition={{ duration: 0.18, ease: EASE_EXPO }}
         >
-          <motion.span
-            className="font-mono text-[9px] uppercase leading-none tracking-[0.12em] text-[#090909]"
-            animate={{ opacity: expanded ? 1 : 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            {label}
-          </motion.span>
+          {/* Dark hairline outline keeps the arrow legible over light artwork. */}
+          <MousePointer2
+            className="h-[19px] w-[19px]"
+            style={{ color: active ? ACCENT : INK }}
+            fill="currentColor"
+            stroke="#090909"
+            strokeWidth={1.5}
+          />
         </motion.div>
       </motion.div>
 
-      <motion.div
-        className="absolute left-0 top-0 h-[5px] w-[5px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink"
-        style={{ x, y }}
-        animate={{ opacity: visible && !expanded ? 1 : 0, scale: overInteractive ? 0.6 : 1 }}
-        transition={{ duration: 0.2 }}
-      />
+      <AnimatePresence>
+        {label && visible ? (
+          <motion.div
+            key="cursor-label"
+            className="absolute left-0 top-0"
+            style={{ x: arrowX, y: arrowY }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18, ease: EASE_EXPO }}
+          >
+            <span
+              className="ml-[17px] mt-[15px] inline-block whitespace-nowrap rounded-[2px] bg-[#090909]/90 px-2 py-1 font-mono text-[10px] uppercase leading-none tracking-[0.14em]"
+              style={{ color: ACCENT }}
+            >
+              {label}
+            </span>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
