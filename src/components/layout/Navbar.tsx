@@ -80,6 +80,8 @@ export function Navbar() {
       return;
     }
     scrollTo(`#${id}`);
+    // Keep the section address shareable without triggering a router navigation.
+    window.history.replaceState(null, "", `#${id}`);
   };
 
   return (

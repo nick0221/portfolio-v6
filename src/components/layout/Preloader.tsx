@@ -65,8 +65,7 @@ export function Preloader() {
         <motion.div
           key="preloader"
           role="status"
-          aria-live="polite"
-          aria-label={`Loading ${shown} percent`}
+          aria-label="Loading the portfolio"
           className="fixed inset-0 z-[90] flex flex-col justify-between bg-bg px-5 pb-8 pt-7 md:px-[4vw]"
           exit={{ y: "-100%" }}
           transition={{ duration: 0.9, ease: EASE_EXPO }}
@@ -108,7 +107,12 @@ export function Preloader() {
             <span className="label max-w-[16rem] leading-relaxed">
               Preparing interface
             </span>
-            <span className="mono-meta text-3xl text-ink tabular-nums md:text-4xl">
+            {/* Decorative readout — announcing every tick would flood
+                assistive technology, so it is hidden from the tree. */}
+            <span
+              aria-hidden="true"
+              className="mono-meta text-3xl text-ink tabular-nums md:text-4xl"
+            >
               {String(shown).padStart(3, "0")}
             </span>
           </div>

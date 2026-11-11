@@ -23,9 +23,25 @@ export function HomePage() {
   useEffect(() => {
     const target = (location.state as { target?: string } | null)?.target;
     if (!target) return;
-    const timer = window.setTimeout(() => scrollTo(`#${target}`), 260);
+    const timer = window.setTimeout(() => {
+      scrollTo(`#${target}`);
+      window.history.replaceState(null, "", `#${target}`);
+    }, 260);
     return () => window.clearTimeout(timer);
   }, [location.state, scrollTo]);
+
+  // Shareable deep links (/#contact) jump straight there rather than animating
+  // from the top of the page.
+  useEffect(() => {
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash) return;
+    const timer = window.setTimeout(
+      () => scrollTo(`#${hash}`, { immediate: true }),
+      420,
+    );
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

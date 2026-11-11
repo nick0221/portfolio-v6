@@ -30,10 +30,7 @@ export function MainLayout() {
     // Without this, focus is lost to <body> when the clicked link unmounts,
     // stranding keyboard and screen-reader users.
     const focusTimer = window.setTimeout(() => {
-      const main = document.getElementById("main");
-      if (!main) return;
-      main.setAttribute("tabindex", "-1");
-      main.focus({ preventScroll: true });
+      document.getElementById("main")?.focus({ preventScroll: true });
     }, 420);
 
     return () => window.clearTimeout(focusTimer);
@@ -55,7 +52,8 @@ export function MainLayout() {
 
       <Navbar />
 
-      <main id="main">
+      {/* tabIndex lets both the skip link and route changes move focus here. */}
+      <main id="main" tabIndex={-1}>
         <AnimatePresence mode="wait" initial={false}>
           <AppRoutes key={location.pathname} />
         </AnimatePresence>

@@ -37,7 +37,12 @@ export function ExpertiseSection() {
         />
       </div>
 
-      <div className="relative mt-14 overflow-hidden border-y border-line py-4 md:mt-16">
+      {/* Decorative repetition of the stack below; hidden so the same
+          technology names are not announced twice. */}
+      <div
+        aria-hidden="true"
+        className="relative mt-14 overflow-hidden border-y border-line py-4 md:mt-16"
+      >
         <div className="marquee-track flex w-max items-center gap-8">
           {[...MARQUEE_SKILLS, ...MARQUEE_SKILLS].map((skill, index) => (
             <span
