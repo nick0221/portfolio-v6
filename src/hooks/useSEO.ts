@@ -6,6 +6,8 @@ interface SEOOptions {
   description: string;
   path?: string;
   type?: "website" | "article";
+  /** Structured data for this route. Removed when a route does not provide it. */
+  jsonLd?: Record<string, unknown>;
 }
 
 function upsertMeta(attribute: "name" | "property", key: string, content: string) {
@@ -28,8 +30,29 @@ function upsertCanonical(href: string) {
   element.href = href;
 }
 
+function upsertStructuredData(json: string | null) {
+  const existing = document.head.querySelector<HTMLScriptElement>(
+    'script[data-page-jsonld="true"]',
+  );
+
+  if (!json) {
+    existing?.remove();
+    return;
+  }
+
+  const script = existing ?? document.createElement("script");
+  script.type = "application/ld+json";
+  script.id = "page-jsonld";
+  script.dataset.pageJsonld = "true";
+  script.textContent = json;
+  if (!existing) document.head.appendChild(script);
+}
+
 /** Per-route document metadata without pulling in a helmet dependency. */
-export function useSEO({ title, description, path = "/", type = "website" }: SEOOptions) {
+export function useSEO({ title, description, path = "/", type = "website", jsonLd }: SEOOptions) {
+  // Serialise so an inline object literal does not re-run this effect every render.
+  const structuredData = jsonLd ? JSON.stringify(jsonLd) : null;
+
   useEffect(() => {
     const canonical = new URL(path, SITE.url).toString();
     document.title = title;
@@ -42,5 +65,6 @@ export function useSEO({ title, description, path = "/", type = "website" }: SEO
     upsertMeta("name", "twitter:title", title);
     upsertMeta("name", "twitter:description", description);
     upsertCanonical(canonical);
-  }, [title, description, path, type]);
+    upsertStructuredData(structuredData);
+  }, [title, description, path, type, structuredData]);
 }

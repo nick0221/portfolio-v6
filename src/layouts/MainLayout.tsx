@@ -18,13 +18,25 @@ export function MainLayout() {
   const previousPath = useRef(location.pathname);
   const [wipeKey, setWipeKey] = useState(0);
 
-  // Reset scroll and replay the route wipe only on genuine navigation.
+  // Reset scroll, replay the route wipe and move focus into the new page —
+  // only on genuine navigation, not on first paint.
   useEffect(() => {
     if (previousPath.current === location.pathname) return;
     previousPath.current = location.pathname;
     setWipeKey((key) => key + 1);
     scrollTo(0, { immediate: true });
     window.scrollTo(0, 0);
+
+    // Without this, focus is lost to <body> when the clicked link unmounts,
+    // stranding keyboard and screen-reader users.
+    const focusTimer = window.setTimeout(() => {
+      const main = document.getElementById("main");
+      if (!main) return;
+      main.setAttribute("tabindex", "-1");
+      main.focus({ preventScroll: true });
+    }, 420);
+
+    return () => window.clearTimeout(focusTimer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 

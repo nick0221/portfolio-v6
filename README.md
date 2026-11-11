@@ -31,6 +31,12 @@ npm run build      # typecheck + production build
 npm run preview    # serve the production build
 ```
 
+## Commit conventions
+
+Commit messages describe the intent and reasoning behind a change, not just the diff. This
+repository does **not** add AI attribution footers — no "Generated with …" line and no
+`Co-Authored-By:` trailer.
+
 ## Structure
 
 ```

@@ -7,18 +7,30 @@ import { MagneticButton } from "@/components/animations/MagneticButton";
 import { ProjectGallery } from "@/components/projects/ProjectGallery";
 import { ProjectVisual } from "@/components/ui/ProjectVisual";
 import { useSEO } from "@/hooks/useSEO";
-import { getNextProject } from "@/data/projects";
+import { getNextProject, getPreviousProject } from "@/data/projects";
+import { SITE } from "@/data/site";
 import type { Project } from "@/types";
 
 /** Full project case-study view: hero, metadata, overview and gallery. */
 export function ProjectDetails({ project }: { project: Project }) {
   const nextProject = getNextProject(project.slug);
+  const previousProject = getPreviousProject(project.slug);
 
   useSEO({
     title: `${project.name} — ${project.category} | NickDevs`,
     description: project.summary,
     path: `/work/${project.slug}`,
     type: "article",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      name: project.name,
+      description: project.summary,
+      url: new URL(`/work/${project.slug}`, SITE.url).toString(),
+      genre: project.category,
+      keywords: project.stack.join(", "),
+      creator: { "@type": "Person", name: "NickDevs", url: SITE.url },
+    },
   });
 
   return (
@@ -141,27 +153,50 @@ export function ProjectDetails({ project }: { project: Project }) {
           </div>
         </div>
 
-        <div className="mt-24 border-t border-line pt-10">
-          <p className="label">Next project</p>
+        <nav
+          aria-label="Project navigation"
+          className="mt-24 grid gap-10 border-t border-line pt-10 md:grid-cols-2 md:gap-8"
+        >
+          <Link
+            to={`/work/${previousProject.slug}`}
+            data-cursor="Previous"
+            className="group block"
+          >
+            <p className="label">Previous project</p>
+            <div className="mt-3 flex items-baseline gap-3">
+              <ArrowLeft
+                aria-hidden="true"
+                className="mb-1 h-5 w-5 shrink-0 text-dim transition-transform duration-500 ease-expo group-hover:-translate-x-1"
+              />
+              <h2 className="display text-[clamp(1.6rem,3.4vw,2.6rem)] transition-colors duration-300 group-hover:text-accent">
+                {previousProject.name}
+              </h2>
+            </div>
+            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-faint">
+              {previousProject.category}
+            </p>
+          </Link>
+
           <Link
             to={`/work/${nextProject.slug}`}
             data-cursor="Next"
-            className="group mt-4 flex items-end justify-between gap-6"
+            className="group block md:text-right"
           >
-            <div>
-              <h2 className="display text-[clamp(2rem,5.4vw,4.2rem)] transition-colors duration-300 group-hover:text-accent">
+            <p className="label">Next project</p>
+            <div className="mt-3 flex items-baseline gap-3 md:justify-end">
+              <h2 className="display text-[clamp(1.6rem,3.4vw,2.6rem)] transition-colors duration-300 group-hover:text-accent">
                 {nextProject.name}
               </h2>
-              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-faint">
-                {nextProject.category}
-              </p>
+              <ArrowUpRight
+                aria-hidden="true"
+                className="mb-1 h-5 w-5 shrink-0 text-dim transition-transform duration-500 ease-expo group-hover:-translate-y-1 group-hover:translate-x-1"
+              />
             </div>
-            <ArrowUpRight
-              aria-hidden="true"
-              className="mb-2 h-7 w-7 shrink-0 text-dim transition-transform duration-500 ease-expo group-hover:-translate-y-1 group-hover:translate-x-1"
-            />
+            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-faint md:text-right">
+              {nextProject.category}
+            </p>
           </Link>
-        </div>
+        </nav>
       </div>
     </article>
   );
