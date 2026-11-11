@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://nickdevs.dev/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url><loc>https://nickdevs.dev/work/streamnest</loc><priority>0.8</priority></url>
+  <url><loc>https://nickdevs.dev/work/urbankix</loc><priority>0.8</priority></url>
+  <url><loc>https://nickdevs.dev/work/time-commitment-service</loc><priority>0.8</priority></url>
+  <url><loc>https://nickdevs.dev/work/advanced-service-kiosk</loc><priority>0.8</priority></url>
+  <url><loc>https://nickdevs.dev/work/pharmacy-mis</loc><priority>0.8</priority></url>
+  <url><loc>https://nickdevs.dev/work/allacapan-rural-health-unit</loc><priority>0.8</priority></url>
+  <url><loc>https://nickdevs.dev/work/valley-and-coast</loc><priority>0.8</priority></url>
+  <url><loc>https://nickdevs.dev/work/quicksell-detroit</loc><priority>0.8</priority></url>
+</urlset>

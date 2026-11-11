@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="NickDevs — Full Stack Web Developer">
+  <rect width="1200" height="630" fill="#090909"/>
+  <g stroke="#FFFFFF" stroke-opacity="0.06">
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+  </g>
+  <circle cx="1040" cy="96" r="220" fill="none" stroke="#292929"/>
+  <circle cx="1040" cy="96" r="4" fill="#C8FF00"/>
+  <text x="72" y="96" fill="#666666" font-family="Helvetica, Arial, sans-serif" font-size="15" letter-spacing="4">FULL STACK WEB DEVELOPER</text>
+  <text x="72" y="356" fill="#F5F5F5" font-family="Helvetica, Arial, sans-serif" font-size="176" font-weight="bold" letter-spacing="-8">NICKDEVS</text>
+  <line x1="72" y1="410" x2="1128" y2="410" stroke="#292929"/>
+  <text x="72" y="472" fill="#A0A0A0" font-family="Helvetica, Arial, sans-serif" font-size="30" letter-spacing="-0.5">CRAFTING DIGITAL EXPERIENCES</text>
+  <text x="72" y="514" fill="#A0A0A0" font-family="Helvetica, Arial, sans-serif" font-size="30" letter-spacing="-0.5">THROUGH CODE &amp; CREATIVITY.</text>
+  <text x="72" y="576" fill="#666666" font-family="Helvetica, Arial, sans-serif" font-size="15" letter-spacing="4">PHP / LARAVEL / REACT</text>
+  <text x="1128" y="576" fill="#C8FF00" font-family="Helvetica, Arial, sans-serif" font-size="15" letter-spacing="4" text-anchor="end">PHILIPPINES</text>
+</svg>
