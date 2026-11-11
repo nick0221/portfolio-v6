@@ -14,7 +14,7 @@ Built as a single-page scrolling experience with dedicated project routes.
 | Routing | React Router 7 |
 | Smooth scroll | Lenis 1.3 (autoRaf, native on touch) |
 | Icons | Lucide React |
-| Fonts | Space Grotesk + Inter (Google Fonts, preconnected) |
+| Fonts | Space Grotesk + Inter, self-hosted variable woff2 (`src/assets/fonts`) |
 
 HeroUI was intentionally **not** installed: every surface here is bespoke, and its component
 styles plus provider bundle would fight the editorial system while adding weight. Tailwind
@@ -36,6 +36,9 @@ npm run preview    # serve the production build
 Commit messages describe the intent and reasoning behind a change, not just the diff. This
 repository does **not** add AI attribution footers — no "Generated with …" line and no
 `Co-Authored-By:` trailer.
+
+Every change is committed **and pushed** to `origin/main` as part of the same piece of work; see
+`AGENTS.md` for the full convention.
 
 ## Structure
 
@@ -69,6 +72,17 @@ The palette's `#666666` step measures only 3.47:1 on the background, so it is re
 
 Type: `display-xl` / `display-l` / `display-m` are fluid `clamp()` classes; `.label` is the
 11px tracking-wide mono metadata style; `.mono-meta` is tabular technical text.
+
+## Fonts
+
+Space Grotesk and Inter are self-hosted as variable woff2 subsets in `src/assets/fonts`, declared in
+`src/styles/fonts.css` with `font-display: swap` and per-subset `unicode-range`, so the browser only
+fetches the ranges it needs. No runtime request is made to Google Fonts and there is no
+render-blocking third-party stylesheet.
+
+To refresh them: request the CSS2 stylesheet from Google with a modern desktop User-Agent, download
+the `latin` and `latin-ext` subsets for each family, and rewrite the `@font-face` blocks with the new
+file names.
 
 ## Content & assets that need the owner's input
 
