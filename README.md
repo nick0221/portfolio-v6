@@ -30,6 +30,7 @@ npm run dev        # http://127.0.0.1:5173
 npm test           # vitest run — content and font guards
 npm run typecheck  # tsc --noEmit
 npm run build      # typecheck + production build
+npm run build:release  # same, but fails while placeholder content ships
 npm run preview    # serve the production build
 ```
 
@@ -99,6 +100,10 @@ the `latin` and `latin-ext` subsets for each family, and rewrite the `@font-face
 file names.
 
 ## Content & assets that need the owner's input
+
+Publishing is gated. `npm run build:release` refuses to build while the `example.com` email, an empty
+`SOCIALS` list, or a project with neither a live nor a repository link is still in place; `npm run
+build` stays unguarded so development and previews keep working.
 
 1. **Email** — `src/data/site.ts` ships `nickdevs@example.com` (a reserved placeholder domain).
    Replace it with the real address before publishing.

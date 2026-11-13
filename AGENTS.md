@@ -24,6 +24,10 @@ npm run typecheck   # tsc --noEmit
 npm run build       # typecheck + production build
 ```
 
+`npm run build:release` is the publishable build: it runs `scripts/check-release.mjs` first and fails
+while placeholder contact details or unlinked projects remain. Never gate that check off to force a
+release through — fix the placeholder or leave it unpublished.
+
 All three must pass. Report checks that could not be run instead of claiming they passed, and never
 weaken an assertion or a type to make a check go green.
 
