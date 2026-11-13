@@ -6,7 +6,7 @@
   "description": "NickDevs — immersive creative developer portfolio.",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && node scripts/prerender.mjs",
     "build:release": "node scripts/check-release.mjs && npm run build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",

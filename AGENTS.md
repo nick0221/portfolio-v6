@@ -45,6 +45,10 @@ weaken an assertion or a type to make a check go green.
   `SOCIALS` is empty: replace them with verified values, never invent addresses or profile URLs.
 - Project previews are generated interface studies (`ProjectVisual.tsx`), captioned as studies,
   never presented as screenshots.
-- The site is a client-side SPA; hosts must rewrite unknown paths to `index.html` for `/work/:slug`.
+- The body is client-rendered, but `scripts/prerender.mjs` emits a static document per case-study
+  route plus `dist/404.html`. It replaces the `route-meta:start` / `route-meta:end` region of
+  `index.html` using `src/lib/seoMeta.ts`, the same resolver `useSEO` applies in the browser. Keep
+  those markers in place; without them the prerenderer throws rather than shipping a stale head.
+- Hosts must serve `404.html` for unmatched paths instead of rewriting everything to `index.html`.
 - `src/data/projects.test.ts` guards catalogue invariants (unique slugs, grid placement, tints,
   sitemap coverage). Update it when the data model changes rather than deleting checks.

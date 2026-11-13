@@ -142,5 +142,15 @@ previews.
 
 ## Deployment
 
-The site is a client-side SPA. Configure the host to rewrite unknown paths to `index.html`
-(needed for `/work/:slug`). Build output is `dist/`.
+`npm run build` prerenders a static document for every case-study route plus `dist/404.html`, so a
+shared project link carries its own `<title>`, description, canonical, share card and `CreativeWork`
+JSON-LD before any JavaScript runs, and an unknown path can answer with a real 404 status.
+
+The body stays client-rendered because the experience is animation-driven; each prerendered page
+includes a `<noscript>` summary of the case study for readers and crawlers without JavaScript.
+
+Configure the host to serve `404.html` with a 404 status for unmatched paths — Netlify and Cloudflare
+Pages do this automatically; on Vercel add a rule that serves it. Do **not** rewrite every path to
+`index.html`, or the prerendered documents and the 404 status are never reached.
+
+Build output is `dist/`.
