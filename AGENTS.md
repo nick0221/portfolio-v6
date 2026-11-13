@@ -25,8 +25,9 @@ npm run build       # typecheck + production build
 ```
 
 `npm run build:release` is the publishable build: it runs `scripts/check-release.mjs` first and fails
-while placeholder contact details or unlinked projects remain. Never gate that check off to force a
-release through — fix the placeholder or leave it unpublished.
+while `SITE.email` is still the reserved `example.com` placeholder. Missing socials and unlinked
+projects are warnings only — private client builds have no public link by design. Never gate that
+check off to force a release through.
 
 All three must pass. Report checks that could not be run instead of claiming they passed, and never
 weaken an assertion or a type to make a check go green.

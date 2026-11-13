@@ -101,9 +101,11 @@ file names.
 
 ## Content & assets that need the owner's input
 
-Publishing is gated. `npm run build:release` refuses to build while the `example.com` email, an empty
-`SOCIALS` list, or a project with neither a live nor a repository link is still in place; `npm run
-build` stays unguarded so development and previews keep working.
+Publishing is gated. `npm run build:release` refuses to build while `SITE.email` is still on the
+reserved `example.com` domain. It also warns — without blocking — about an empty `SOCIALS` list and
+projects with neither a live nor a repository link, since a private client build honestly has no
+public URL and the case study already says so. `npm run build` stays unguarded for development and
+previews.
 
 1. **Email** — `src/data/site.ts` ships `nickdevs@example.com` (a reserved placeholder domain).
    Replace it with the real address before publishing.

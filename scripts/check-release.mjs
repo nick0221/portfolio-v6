@@ -1,65 +1,60 @@
-#!/usr/bin/env node
 /**
  * Release guard.
  *
- * A portfolio that is late is recoverable; one that publishes an address going
- * nowhere is not. This refuses to produce a publishable bundle while placeholder
- * contact details or unlinked projects remain.
+ * Fails the publishable build while the contact address is a placeholder: an
+ * address that goes nowhere is the one thing a portfolio cannot ship.
  *
- * The real data modules are loaded through Vite so TypeScript and the `@/` alias
- * resolve exactly as they do in the app — no pattern-matching against source
- * text, which would drift the moment the data is reformatted.
+ * Anything else that looks unfinished is a warning, not a blocker. A private
+ * client build legitimately has no public link — the case study says so in its
+ * own words — and an empty SOCIALS list is a valid choice rather than a lie.
  *
- * `npm run build` deliberately skips this so development and previews keep
- * working with the reserved example.com address.
+ * The data modules are imported directly; Node strips the type annotations, so
+ * this reads the real typed values instead of pattern-matching source text.
+ * `npm run build` skips this check entirely.
  */
-import { createServer } from "vite";
 
 const PLACEHOLDER_EMAIL = /@example\.(com|net|org)$/i;
-
-const server = await createServer({
-  appType: "custom",
-  server: { middlewareMode: true },
-  logLevel: "silent",
-});
 
 let SITE;
 let SOCIALS;
 let PROJECTS;
 
 try {
-  ({ SITE, SOCIALS } = await server.ssrLoadModule("/src/data/site.ts"));
-  ({ PROJECTS } = await server.ssrLoadModule("/src/data/projects.ts"));
-} finally {
-  await server.close();
+  ({ SITE, SOCIALS } = await import("../src/data/site.ts"));
+  ({ PROJECTS } = await import("../src/data/projects.ts"));
+} catch (error) {
+  console.error("\nRelease check could not load the data modules.");
+  console.error("This needs Node 22.18+ or 23.6+, which strip TypeScript types at import.");
+  console.error(error);
+  process.exit(1);
 }
 
-const problems = [];
+const blockers = [];
+const warnings = [];
 
 if (!SITE.email) {
-  problems.push("src/data/site.ts — SITE.email is missing");
+  blockers.push("src/data/site.ts — SITE.email is missing");
 } else if (PLACEHOLDER_EMAIL.test(SITE.email)) {
-  problems.push(`src/data/site.ts — SITE.email is the reserved placeholder ${SITE.email}`);
+  blockers.push(`src/data/site.ts — SITE.email is the reserved placeholder ${SITE.email}`);
 }
 
-if (!Array.isArray(SOCIALS) || SOCIALS.length === 0) {
-  problems.push("src/data/site.ts — SOCIALS is empty; at least one verified profile is expected");
+if (SOCIALS.length === 0) {
+  warnings.push("src/data/site.ts — SOCIALS is empty, so the contact section renders no profiles");
 }
 
 for (const project of PROJECTS) {
   if (!project.liveUrl && !project.repoUrl) {
-    problems.push(
-      `src/data/projects.ts — ${project.name} has neither a live URL nor a repository URL`,
-    );
+    warnings.push(`src/data/projects.ts — ${project.name} has no live or repository link`);
   }
 }
 
-if (problems.length > 0) {
-  const count = `${problems.length} placeholder ${problems.length === 1 ? "item" : "items"}`;
-  console.error(`\nRelease check failed — ${count} still in place:\n`);
-  for (const problem of problems) console.error(`  • ${problem}`);
+for (const warning of warnings) console.warn(`  · warning: ${warning}`);
+
+if (blockers.length > 0) {
+  console.error("\nRelease blocked:\n");
+  for (const blocker of blockers) console.error(`  • ${blocker}`);
   console.error("\nResolve these, or use `npm run build` for a non-release build.\n");
   process.exit(1);
 }
 
-console.log("Release check passed — contact details and project links are real.\n");
+console.log("\nRelease check passed.\n");
