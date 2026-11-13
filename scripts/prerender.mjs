@@ -55,17 +55,21 @@ function renderMeta({ title, canonical, meta, jsonLd }) {
 
 function renderDocument({ seo, fallback }) {
   const region = new RegExp(`${START}[\\s\\S]*?${END}`);
-  const withMeta = template.replace(region, renderMeta(seo));
+
+  // Every replacement is a function, never a string: generated markup can carry
+  // `$&`, `$1`, `` $` ``, `$'` or `$$`, and a string replacement would expand
+  // those as patterns and corrupt the document.
+  const withMeta = template.replace(region, () => renderMeta(seo));
 
   const withBody = fallback
     ? withMeta.replace(
         '<div id="root"></div>',
-        `<div id="root"><noscript>${fallback}</noscript></div>`,
+        () => `<div id="root"><noscript>${fallback}</noscript></div>`,
       )
     : withMeta;
 
   // The markers are an authoring contract, not something to ship.
-  return withBody.replace(START, "").replace(END, "");
+  return withBody.replace(START, () => "").replace(END, () => "");
 }
 
 const textStyle =
@@ -140,6 +144,9 @@ writeFileSync(
 );
 
 // Strip the authoring markers from the home document too.
-writeFileSync(join(dist, "index.html"), template.replace(START, "").replace(END, ""));
+writeFileSync(
+  join(dist, "index.html"),
+  template.replace(START, () => "").replace(END, () => ""),
+);
 
 console.log(`Prerendered ${written} case studies and 404.html.`);
